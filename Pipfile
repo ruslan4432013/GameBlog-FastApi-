@@ -4,6 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+fastapi = "*"
+uvicorn = {extras = ["standard"], version = "*"}
+jinja2 = "*"
+sqlalchemy = "*"
+databases = "*"
+sqlalchemy-utils = "*"
+aiosqlite = "*"
 
 [dev-packages]
 
