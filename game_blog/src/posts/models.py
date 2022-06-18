@@ -4,7 +4,7 @@ import datetime
 
 from sqlalchemy_utils import UUIDType
 
-from game_blog.db.base_class import Base
+from db.base_class import Base
 
 
 class Post(Base):
@@ -15,5 +15,5 @@ class Post(Base):
     is_active = Column(Boolean, default=True)
     title = Column(String)
     content = Column(String)
-    owner_id = Column(Integer, ForeignKey("users.uid"))
+    owner_uid = Column(Integer, ForeignKey("users.uid"))
     owner = relationship("User", back_populates="post")
