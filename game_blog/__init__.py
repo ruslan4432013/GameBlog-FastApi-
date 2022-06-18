@@ -1,19 +1,19 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
-from game_blog import users, posts
+from src.api.routers import api_router
+from .src import users
 
-from game_blog.main.routes import router
-from .database import engine
-from .users import models
-from .posts import models
+from .db.session import engine
 
+from game_blog.src.users import models
+from .src.posts import models
 
-users.models.Base.metadata.create_all(bind=engine)
-posts.models.Base.metadata.create_all(bind=engine)
+src.users.models.Base.metadata.create_all(bind=engine)
+src.posts.models.Base.metadata.create_all(bind=engine)
 
 def create_app(debug=True):
     app = FastAPI(debug=debug)
     app.mount('/static', StaticFiles(directory='game_blog/static'), name='static')
-    app.include_router(router)
+    app.include_router(api_router)
     return app

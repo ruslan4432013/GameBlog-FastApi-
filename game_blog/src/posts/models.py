@@ -4,7 +4,7 @@ import datetime
 
 from sqlalchemy_utils import UUIDType
 
-from ..database import Base
+from game_blog.db.base_class import Base
 
 
 class Post(Base):
