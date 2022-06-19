@@ -11,6 +11,7 @@ sqlalchemy = "*"
 databases = "*"
 sqlalchemy-utils = "*"
 aiosqlite = "*"
+alembic = "*"
 
 [dev-packages]
 

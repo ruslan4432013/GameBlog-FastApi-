@@ -8,12 +8,12 @@ from db.base_class import Base
 
 
 class Post(Base):
-    __tablename__ = "posts"
+    __tablename__ = "postapp"
 
     uid = Column(UUIDType, primary_key=True)
     created_date = Column(DateTime, default=datetime.datetime.utcnow)
     is_active = Column(Boolean, default=True)
     title = Column(String)
     content = Column(String)
-    owner_uid = Column(Integer, ForeignKey("users.uid"))
+    owner_uid = Column(Integer, ForeignKey("userapp.uid"))
     owner = relationship("User", back_populates="post")

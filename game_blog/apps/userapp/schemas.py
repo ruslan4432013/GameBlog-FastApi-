@@ -1,7 +1,5 @@
 from typing import Optional
 from pydantic import BaseModel
-import datetime
-from fastapi import Body
 
 class Token(BaseModel):
     access_token: str

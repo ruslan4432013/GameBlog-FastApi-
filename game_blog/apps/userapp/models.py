@@ -7,7 +7,7 @@ from db.base_class import Base
 
 
 class User(Base):
-    __tablename__ = "users"
+    __tablename__ = "userapp"
 
     uid = Column(UUIDType, primary_key=True)
     created_date = Column(DateTime, default=datetime.datetime.utcnow)
