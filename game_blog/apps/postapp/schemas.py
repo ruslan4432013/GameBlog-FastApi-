@@ -1,7 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel
 import datetime
-from game_blog.apps.userapp.schemas import User
+from game_blog.apps.authapp.schemas import User
 
 
 class PostBase(BaseModel):

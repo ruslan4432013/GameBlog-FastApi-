@@ -1,11 +1,14 @@
 from fastapi import APIRouter
-from starlette.requests import Request
-from starlette.responses import HTMLResponse
+from fastapi.requests import Request
+from fastapi.responses import HTMLResponse
+
+from apps.authapp.routers import user_router
 from core.config import TemplateResponse
 
-main_router = APIRouter()
+api_router = APIRouter()
+api_router.include_router(user_router)
 
-@main_router.get("/", response_class=HTMLResponse)
+
+@api_router.get("/", response_class=HTMLResponse)
 async def root(request: Request):
     return TemplateResponse('index.html', {'request': request})
-

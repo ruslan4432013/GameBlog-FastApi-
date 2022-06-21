@@ -12,6 +12,10 @@ databases = "*"
 sqlalchemy-utils = "*"
 aiosqlite = "*"
 alembic = "*"
+python-multipart = "*"
+passlib = "*"
+pydantic = {extras = ["email"], version = "*"}
+fastapi-utils = "*"
 
 [dev-packages]
 

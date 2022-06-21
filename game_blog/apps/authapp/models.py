@@ -1,19 +1,18 @@
-from sqlalchemy import Boolean, Column, String, DateTime
+from uuid import uuid4
+
+from sqlalchemy import Boolean, Column, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy_utils import EmailType, UUIDType
 import datetime
-
+from apps.postapp import Post
 from db.base_class import Base
 
 
 class User(Base):
-    __tablename__ = "userapp"
-
-    uid = Column(UUIDType, primary_key=True)
+    uid = Column(UUIDType, default=uuid4, primary_key=True)
     created_date = Column(DateTime, default=datetime.datetime.utcnow)
     email = Column(EmailType)
     username = Column(String, unique=True)
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
-
     post = relationship("Post", back_populates="owner")
