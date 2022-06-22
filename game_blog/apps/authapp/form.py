@@ -2,6 +2,7 @@ from typing import List, Optional
 from sqlalchemy.orm import Session
 
 from core.hashing import Hasher
+from core.requests_framework import PostRequest
 from .models import User
 from fastapi import Request
 
@@ -51,11 +52,13 @@ class UserLoginForm:
         self.errors: List = []
         self.username: Optional[str] = None
         self.password: Optional[str] = None
+        self.user: Optional[str] = None
 
     async def load_data(self):
-        form = await self.request.form()
-        self.username = form.get('username')
-        self.password = form.get('password')
+        data = await self.request.body()
+        data = PostRequest.parse_body_json(data)
+        self.username = data.get('username')
+        self.password = data.get('password')
 
     async def is_valid(self, db: Session):
 
@@ -63,6 +66,7 @@ class UserLoginForm:
             self.errors.append('Please, input data')
         else:
             user = db.query(User).filter(User.username == self.username).first()
+            self.user = user
             if not user:
                 self.errors.append(f'No this user with username: "{self.username}"')
             else:

@@ -1,12 +1,16 @@
+import json
+
 from fastapi import APIRouter
 from fastapi.requests import Request
 from fastapi import Depends
+from sqlalchemy import update
 from sqlalchemy.orm import Session
 from fastapi import status
+from fastapi import Response
 from apps.authapp.form import UserCreateForm, UserLoginForm
 from apps.authapp.schemas import UserCreate
 from core.config import TemplateResponse
-from core.hashing import Hasher
+from secrets import token_urlsafe
 from db.repository.users import create_new_user
 from db.session import get_db
 from fastapi import responses
@@ -30,7 +34,7 @@ async def register(request: Request, db: Session = Depends(get_db)):
             try:
                 user = create_new_user(user=user, db=db)
                 return responses.RedirectResponse(
-                    "/?msg=Successfully-Registered", status_code=status.HTTP_302_FOUND
+                    "/login?msg=Successfully-Registered", status_code=status.HTTP_302_FOUND
                 )
             except IntegrityError:
                 form.__dict__.get("errors").append("Duplicate username or email")
@@ -46,10 +50,24 @@ async def login_page(request: Request, db: Session = Depends(get_db)):
         form = UserLoginForm(request)
         await form.load_data()
         if await form.is_valid(db):
-            return responses.RedirectResponse(
-                "/?msg=Successfully-Logging", status_code=status.HTTP_302_FOUND
-            )
+            user = form.user
+            token = token_urlsafe(32)
+            user.token = token
+            db.commit()
+            response = responses.JSONResponse({'status': 'success', 'token': token, 'user': form.username})
+            return response
         else:
-            return TemplateResponse('auth/login.html', form.__dict__)
+            return responses.JSONResponse({'status': 'failed', 'errors': json.dumps(form.errors)})
 
     return TemplateResponse('auth/login.html', {'request': request})
+
+
+@user_router.get('/logout/{username}')
+async def logout(username, db: Session = Depends(get_db)):
+    print(username)
+    user = db.query(User).filter_by(username=username).first()
+    print(user.username, user.email)
+    user.token = ''
+    db.commit()
+    response = responses.RedirectResponse('/')
+    return response

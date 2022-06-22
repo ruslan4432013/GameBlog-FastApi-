@@ -30,12 +30,10 @@
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav mx-auto">
-              <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
             </ul>
-            <ul class="navbar-nav">
-              <!-- Social nav-->
-              <li class="nav-item"><a class="nav-link" href="/login/">Login</a></li>
-              <li class="nav-item"><a class="nav-link" href="/register/">Register</a></li>
+            <ul class="navbar-nav" id="auth_links">
+
             </ul>
           </div>
         </div>
@@ -312,5 +310,6 @@
     <script src="{{ url_for('static', path='/js/masonry.pkgd.min.js') }}"></script>
     <!-- Global - Main js-->
     <script src="{{ url_for('static', path='/js/global.js') }}"></script>
+    <script src="{{ url_for('static', path='/index/session_main.js') }}"></script>
   </body>
 </html>
