@@ -3,11 +3,9 @@ import json
 from fastapi import APIRouter
 from fastapi.requests import Request
 from fastapi import Depends
-from sqlalchemy import update
 from sqlalchemy.orm import Session
 from fastapi import status
-from fastapi import Response
-from apps.authapp.form import UserCreateForm, UserLoginForm
+from apps.authapp.form import UserCreateForm, UserLoginForm, UserUpdateForm
 from apps.authapp.schemas import UserCreate
 from core.config import TemplateResponse
 from secrets import token_urlsafe
@@ -41,6 +39,30 @@ async def register(request: Request, db: Session = Depends(get_db)):
                 return TemplateResponse("auth/register.html", form.__dict__)
 
         return TemplateResponse("auth/register.html", form.__dict__)
+
+
+@user_router.post('/update/')
+@user_router.get('/update/')
+async def update(request: Request, db: Session = Depends(get_db)):
+    if request.method == 'GET':
+        return TemplateResponse("auth/update.html", {"request": request})
+    else:
+        form = UserUpdateForm(request)
+        await form.load_data()
+        if await form.is_valid(db):
+            try:
+                user = db.query(User).filter(User.username == form.old_name).first()
+                if form.username:
+                    user.username = form.username
+                if form.email:
+                    user.email = form.email
+                db.commit()
+                return responses.JSONResponse({'status': 'success', 'user': user.username})
+            except IntegrityError:
+                form.__dict__.get("errors").append("Duplicate username or email")
+                return TemplateResponse("auth/update.html", form.__dict__)
+
+        return TemplateResponse("auth/update.html", form.__dict__)
 
 
 @user_router.post('/login/')

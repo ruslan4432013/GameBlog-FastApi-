@@ -7,13 +7,29 @@ from .models import User
 from fastapi import Request
 
 
-class UserCreateForm:
+class UserForm:
     def __init__(self, request: Request):
         self.request: Request = request
         self.errors: List = []
         self.username: Optional[str] = None
-        self.email: Optional[str] = None
+
+    async def load_data(self):
+        pass
+
+    async def is_valid(self, db: Session):
+        return True
+
+    async def validate_username(self, db: Session):
+        user = db.query(User).filter(User.username == self.username).first()
+        if user:
+            self.errors.append(f'User with username {self.username} has already')
+
+
+class UserCreateForm(UserForm):
+    def __init__(self, request: Request):
+        super().__init__(request)
         self.password: Optional[str] = None
+        self.email: Optional[str] = None
         self.confirm_password: Optional[str] = None
 
     async def load_data(self):
@@ -35,22 +51,15 @@ class UserCreateForm:
             return True
         return False
 
-    async def validate_username(self, db: Session):
-        user = db.query(User).filter(User.username == self.username).first()
-        if user:
-            self.errors.append(f'User with username {self.username} has already')
-
     async def validate_email(self, db: Session):
         user = db.query(User).filter(User.email == self.email).first()
         if user:
             self.errors.append(f'User with email {self.email} has already')
 
 
-class UserLoginForm:
+class UserLoginForm(UserForm):
     def __init__(self, request: Request):
-        self.request: Request = request
-        self.errors: List = []
-        self.username: Optional[str] = None
+        super().__init__(request)
         self.password: Optional[str] = None
         self.user: Optional[str] = None
 
@@ -76,3 +85,31 @@ class UserLoginForm:
         if not self.errors:
             return True
         return False
+
+
+class UserUpdateForm(UserForm):
+    def __init__(self, request: Request):
+        super().__init__(request)
+        self.email: Optional[str] = None
+        self.user: Optional[str] = None
+
+    async def load_data(self):
+        data = await self.request.body()
+        data = PostRequest.parse_body_json(data)
+        self.username = data.get('username')
+        self.email = data.get('email')
+        self.old_name = data.get('old')
+
+    async def is_valid(self, db: Session):
+        await self.validate_username(db)
+        await self.validate_email(db)
+
+        if not self.errors:
+            return True
+        return False
+
+    async def validate_email(self, db: Session):
+        user = db.query(User).filter(User.email == self.email).first()
+
+        if user:
+            self.errors.append(f'User with email {self.email} has already')
