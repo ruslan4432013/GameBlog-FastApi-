@@ -1,315 +1,228 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- favicon-->
-    <link rel="shortcut icon" href="{{ url_for('static', path='/images/favicon.ico') }}">
-    <!-- Site Title-->
-    <title>My Blog on FastApi</title>
-    <meta name="description" content="A Template for Architectural Interior Design company website.">
-    <!-- Bootstrap CSS file-->
-    <link href="{{ url_for('static', path='/css/bootstrap.min.css') }}" rel="stylesheet">
-    <!-- Flickity CSS file-->
-    <link href="{{ url_for('static', path='/css/flickity.min.css') }}" rel="stylesheet">
-    <!-- Main CSS file-->
-    <link href="{{ url_for('static', path='/css/style.css') }}" rel="stylesheet">
-    <!-- Fontawesome 5 CSS file-->
-    <link href="{{ url_for('static', path='/css/fontawesome-all.min.css') }}" rel="stylesheet">
-    <!-- Magnific Popup CSS-->
-    <link href="{{ url_for('static', path='/css/magnific-popup.css') }}" rel="stylesheet">
-    <!-- Google Fonts-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;display=swap">
-  </head>
-  <body>
-    <!-- Navbar-->
-    <div class="site-header">
-      <nav class="navbar navbar-expand-lg navbar-light">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Firmbee.com - Free Project Management Platform for remote teams">
+    <title>Blog on FastAPI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/main.css') }}">
+    <script src="https://kit.fontawesome.com/0e035b9984.js" crossorigin="anonymous"></script>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#navbar-example" data-bs-offset="82">
+<header id="home">
+    <nav id="#navbar" class="navbar navbar-expand-lg position-fixed top-0 w-100 py-3">
         <div class="container">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-          <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav mx-auto">
-              <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-            </ul>
-            <ul class="navbar-nav" id="auth_links">
+            <a class="navbar-brand" href="/"><img src="{{ url_for('static', path='img/logo-blog.png') }}" alt=""></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link active" href="#">home</a>
+                    <a class="nav-link" href="#">about</a>
+                    <a class="nav-link" href="#">contact</a>
+                    <a class="nav-link" href="#">Blog</a>
+                    {% if user %}
+                    <a class="nav-link" href="/logout/">Logout</a>
+                    <a class="nav-link" href="#">{{ user.username }}</a>
+                    {% else %}
+                    <a class="nav-link" href="/login/">Login</a>
+                    <a class="nav-link" href="/register/">Register</a>
+                    {% endif %}
 
-            </ul>
-          </div>
+                </div>
+            </div>
         </div>
-      </nav>
+    </nav>
+</header>
+<main>
+    <section class="main-slider">
+        <div class="hero-img">
+            <div class="hero-bg"></div>
+            <div class="container">
+                <div class="hero-text">
+                    <div class="welcome-text"><span class="big-text">Добро пожаловать</span></div>
+                    <p>Данный блог написан полностью на FastAPI</p>
+                </div>
+            </div>
+            <a href="#about"><i class="fas fa-chevron-down"></i></a>
+        </div>
+    </section>
+    <section id="about" class="aboutus">
+        <div class="container">
+            <div class="row">
+                <div class="right col-md-6">
+                    <div class="text-right">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt perspiciatis ex ipsam</p>
+                    </div>
+                </div>
+                <div class="left col-md-6">
+                    <div class="text-left">
+                        <h2 class="underscore">about us</h2>
+                        <p class="sup-header">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
+                            perspiciatis ex ipsam similique blanditiis. Culpa hic quia, repellendus corrupti </p>
+                        <p class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt perspiciatis ex
+                            ipsam similique blanditiis. Culpa hic quia, repellendus corrupti perspiciatis praesentium
+                            necessitatibus alias illo quidem. Repudiandae expedita illum aspernatur magni?
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt perspiciatis ex ipsam
+                            similique blanditiis. Culpa hic quia, repellendus corrupti perspiciatis praesentium
+                            necessitatibus alias illo quidem. Repudiandae expedita illum aspernatur magni?</p>
+                    </div>
+                    <a href="contact.html" class="main-button">Let’s work together</a>
+                </div>
+            </div>
+        </div>
+        <div class="black-div"></div>
+    </section>
+    <section id="contact" class="social-media">
+        <div class="container">
+            <h2>WANT TO KNOW MORE ABOUT US?</h2>
+            <a href=""><img src="{{ url_for('static', path='img/facebook_icon.svg') }}" alt=""></a>
+            <a href=""><img src="{{ url_for('static', path='img/instagram logo_icon.svg') }}" alt=""></a>
+            <a href=""><img src="{{ url_for('static', path='img/pinterest_icon.svg') }}" alt=""></a>
+        </div>
+    </section>
+    <section class="new-articles">
+        <div class="card-group">
+            <div class="card bg-dark text-white">
+                <img src="{{ url_for('static', path='img/architecture-1857175_1920.jpg') }}" class="card-img" alt="...">
+                <div class="card-img-overlay p-3">
+                    <div class="text-overlay">
+                        <p class="card-text text-uppercase">Most Popular</p>
+                        <h5 class="card-title text-uppercase">Lorem, ipsum dolor sit amet consectetur </h5>
+                        <div class="line"></div>
+                        <div class="card-text autor-data d-flex pb-3">
+                            <p class="post-autor text-uppercase">Posted by someone&nbsp;</p>
+                            <p class="post-data text-uppercase">| 30 07 2021</p>
+                        </div>
+                        <a href="" class="card-button">Read article</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card bg-dark text-white">
+                <img src="{{ url_for('static', path='img/castle-1998435_1920.jpg') }}" class="card-img" alt="...">
+                <div class="card-img-overlay p-3">
+                    <div class="text-overlay">
+                        <p class="card-text text-uppercase">Most Popular</p>
+                        <h5 class="card-title text-uppercase">Lorem, ipsum dolor sit amet consectetur </h5>
+                        <div class="line"></div>
+                        <div class="card-text autor-data d-flex pb-3">
+                            <p class="post-autor text-uppercase">Posted by someone&nbsp;</p>
+                            <p class="post-data text-uppercase">| 30 07 2021</p>
+                        </div>
+                        <a href="" class="card-button">Read article</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card bg-dark text-white">
+                <img src="{{ url_for('static', path='img/staircase-274614_1920.jpg') }}" class="card-img" alt="...">
+                <div class="card-img-overlay p-3">
+                    <div class="text-overlay">
+                        <p class="card-text text-uppercase">Most Popular</p>
+                        <h5 class="card-title text-uppercase">Lorem, ipsum dolor sit amet consectetur </h5>
+                        <div class="line"></div>
+                        <div class="card-text autor-data d-flex pb-3">
+                            <p class="post-autor text-uppercase">Posted by someone&nbsp;</p>
+                            <p class="post-data text-uppercase">| 30 07 2021</p>
+                        </div>
+                        <a href="" class="card-button">Read article</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="posts" class="recent-posts">
+        <div class="container">
+            <h2 class="underscore">RECENT POSTS</h2>
+            <p class="sup-header">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt perspiciatis ex
+                ipsam similique blanditiis. Culpa hic quia, repellendus corrupti </p>
+            <div class="posts-wrapper">
+                <div class="post-item">
+                    <div class="post-meta">
+                        <span><i class="far fa-user"></i> Posted by someone</span><span><i class="far fa-calendar"></i> 30 07 2021</span>
+                    </div>
+                    <a href="single-post.html" class="post-title">Lorem ipsum dolor sit amet consectetur adipisicing
+                        elit.</a>
+                    <p class="post-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
+                        perspiciatis ex ipsam similique blanditiis. Culpa hic quia, repellendus corrupti perspiciatis
+                        praesentium necessitatibus alias illo quidem. Repudiandae expedita illum aspernatur magni?</p>
+                    <div class="post-meta">
+                        <span><i class="far fa-comment-alt"></i> 20 comments</span>
+                    </div>
+                </div>
+                <div class="post-item">
+                    <div class="post-meta">
+                        <span><i class="far fa-user"></i> Posted by someone</span><span><i class="far fa-calendar"></i> 30 07 2021</span>
+                    </div>
+                    <a href="single-post.html" class="post-title">Lorem ipsum dolor sit amet consectetur adipisicing
+                        elit.</a>
+                    <p class="post-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
+                        perspiciatis ex ipsam similique blanditiis. Culpa hic quia, repellendus corrupti perspiciatis
+                        praesentium necessitatibus alias illo quidem. Repudiandae expedita illum aspernatur magni?</p>
+                    <div class="post-meta">
+                        <span><i class="far fa-comment-alt"></i> 20 comments</span>
+                    </div>
+                </div>
+                <div class="post-item">
+                    <div class="post-meta">
+                        <span><i class="far fa-user"></i> Posted by someone</span><span><i class="far fa-calendar"></i> 30 07 2021</span>
+                    </div>
+                    <a href="single-post.html" class="post-title">Lorem ipsum dolor sit amet consectetur adipisicing
+                        elit.</a>
+                    <p class="post-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
+                        perspiciatis ex ipsam similique blanditiis. Culpa hic quia, repellendus corrupti perspiciatis
+                        praesentium necessitatibus alias illo quidem. Repudiandae expedita illum aspernatur magni?</p>
+                    <div class="post-meta">
+                        <span><i class="far fa-comment-alt"></i> 20 comments</span>
+                    </div>
+                </div>
+                <a href="blog.html" class="main-button">View all posts</a>
+            </div>
+        </div>
+    </section>
+    <section id="subscribe" class="subscribe">
+        <div class="container">
+            <h2>Subscribe & Don’t Miss Out</h2>
+            <p class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt perspiciatis ex ipsam
+                similique blanditiis. Culpa hic quia, repellendus corrupti perspiciatis praesentium
+            </p>
+            <form>
+                <input type="email" class="email text-uppercase" id="exampleInputEmail1" aria-describedby="emailHelp"
+                       placeholder="Enter your email">
+                <button type="submit" class="button-subscribe text-uppercase">subscribe</button>
+            </form>
+        </div>
+    </section>
+</main>
+<footer class="text-center  text-uppercase py-5">
+    <div class="footer-icons ">
+        <a href=""><img src="{{ url_for('static', path='/img/facebook-footer.svg') }}" alt=""></a>
+        <a href=""><img src="{{ url_for('static', path='/img/instagramm-footer.svg') }}" alt=""></a>
+        <a href=""><img src="{{ url_for('static', path='/img/pinterest-footer.svg') }}" alt=""></a>
     </div>
-    <!-- End Navbar-->
-    <article class="entry">
-      <div class="entry-content">
-        <!-- head services-->
-        <div class="bg-game">
-          <div class="container">
-            <div class="py-lg-8 py-md-7 py-6">
-              <div class="row">
-                <div class="col-lg-8 offset-lg-2">
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="container mt-8">
-          <div class="row large-gutters">
-            <div class="col-lg-8 mb-7">
-              <!-- Blog-->
-              <div class="row gx-lg-5 gy-lg-5 gy-3 gx-3 blog-post card-post-style">
-                <div class="col-md-12">
-                  <article>
-                    <figure class="entry-media"><a href="blog-single-post.html"><img class="lozad" src="{{ url_for('static', path='/images/blog/b8.jpg') }}" data-src="{{ url_for('static', path='/images/blog/b8.jpg') }}" alt="Entry Image"/></a>
-                    </figure>
-                    <div class="entry-content1-wrapper">
-                      <header class="entry-header">
-                        <h2 class="entry-title"><a href="blog-single-post.html">Seven Explanation On Why Finance Is Important</a></h2>
-                        <div class="mb-2">
-                          <div class="entry-meta-top"><span class="entry-author"><i class="far fa-user"></i>Amjad Ali</span><span class="entry-meta-date"> <i class="far fa-clock"></i>March 22, 2020</span><span class="entry-comment-count"><a href="/blog-single-post.html#comments"><i class="far fa-comment-alt"></i>2</a></span><span class="entry-comment-count"><a href="/blog-single-post.html#comments"><i class="far fa-edit"></i>Edit</a></span>
-                          </div>
-                        </div>
-                      </header>
-                      <div class="entry-content">
-                        <p>Praesent blandit nibh ac justo auctor pretium. Maecenas mauris metus, vulputate ac volutpat sit amet, facilisis quis odio. Nam ut commodo neque. Cras pellentesque nisi, id laoreet nibh. Aliquam in ante elit.</p>
-                      </div>
-                      <footer class="entry-footer"><a class="entry-read-more" href="blog-single-post.html">Read More<i class="fas fa-long-arrow-alt-right ml-1"></i></a></footer>
-                    </div>
-                  </article>
-                </div>
-                <div class="col-md-12">
-                  <article>
-                    <figure class="entry-media"><a href="blog-single-post.html"><img class="lozad" src="{{ url_for('static', path='/images/blog/b1.jpg') }}" data-src="{{ url_for('static', path='/images/blog/b1.jpg') }}" alt="Entry Image"/></a>
-                    </figure>
-                    <div class="entry-content1-wrapper">
-                      <header class="entry-header">
-                        <h2 class="entry-title"><a href="blog-single-post.html">Most Effective Ways To Overcome Finances Problem</a></h2>
-                        <div class="mb-2">
-                          <div class="entry-meta-top"><span class="entry-author"><i class="far fa-user"></i>Amjad Ali</span><span class="entry-meta-date"> <i class="far fa-clock"></i>March 22, 2020</span><span class="entry-comment-count"><a href="/blog-single-post.html#comments"><i class="far fa-comment-alt"></i>2</a></span><span class="entry-comment-count"><a href="/blog-single-post.html#comments"><i class="far fa-edit"></i>Edit</a></span>
-                          </div>
-                        </div>
-                      </header>
-                      <div class="entry-content">
-                        <p>Praesent blandit nibh ac justo auctor pretium. Maecenas mauris metus, vulputate ac volutpat sit amet, facilisis quis odio. Nam ut commodo neque. Cras pellentesque nisi, id laoreet nibh. Aliquam in ante elit.</p>
-                      </div>
-                      <footer class="entry-footer"><a class="entry-read-more" href="blog-single-post.html">Read More<i class="fas fa-long-arrow-alt-right ml-1"></i></a></footer>
-                    </div>
-                  </article>
-                </div>
-                <div class="col-md-12">
-                  <article>
-                    <figure class="entry-media"><a href="blog-single-post.html"><img class="lozad" src="{{ url_for('static', path='/images/blog/b3.jpg') }}" data-src="{{ url_for('static', path='/images/blog/b3.jpg') }}" alt="Entry Image"/></a>
-                    </figure>
-                    <div class="entry-content1-wrapper">
-                      <header class="entry-header">
-                        <h2 class="entry-title"><a href="blog-single-post.html">Suspendisse viverra massa eget nibh ultricies mollis</a></h2>
-                        <div class="mb-2">
-                          <div class="entry-meta-top"><span class="entry-author"><i class="far fa-user"></i>Amjad Ali</span><span class="entry-meta-date"> <i class="far fa-clock"></i>March 22, 2020</span><span class="entry-comment-count"><a href="/blog-single-post.html#comments"><i class="far fa-comment-alt"></i>2</a></span><span class="entry-comment-count"><a href="/blog-single-post.html#comments"><i class="far fa-edit"></i>Edit</a></span>
-                          </div>
-                        </div>
-                      </header>
-                      <div class="entry-content">
-                        <p>Praesent blandit nibh ac justo auctor pretium. Maecenas mauris metus, vulputate ac volutpat sit amet, facilisis quis odio. Nam ut commodo neque. Cras pellentesque nisi, id laoreet nibh. Aliquam in ante elit.</p>
-                      </div>
-                      <footer class="entry-footer"><a class="entry-read-more" href="blog-single-post.html">Read More<i class="fas fa-long-arrow-alt-right ml-1"></i></a></footer>
-                    </div>
-                  </article>
-                </div>
-              </div>
-              <!-- End Blog-->
-              <div class="text-center align-items-center mt-5"><a class="btn btn-athens-gray" href="#">Load More</a></div>
-            </div>
-            <div class="col-lg-4 mb-7">
-              <!-- Sidebar-->
-              <aside class="widget">
-                <form class="search-form" role="search">
-                  <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search" name="q">
-                    <div class="input-group-append">
-                      <button class="btn bt" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                    </div>
-                  </div>
-                </form>
-              </aside>
-              <!-- Top Posts-->
-              <aside class="widget">
-                <h5 class="widget-title">Top Posts</h5>
-                <div class="simple-entry-list blog-post">
-                  <article class="mb-5">
-                    <div class="entry-content1-wrapper">
-                      <div class="entry-header">
-                        <h2 class="entry-title"><a href="blog-single-post.html">The Story Of New Startup Has Just Gone Viral</a></h2>
-                        <div class="entry-meta-top"><span class="entry-author"><i class="far fa-user"></i>Amjad Ali</span><span class="entry-meta-date"> <i class="far fa-clock"></i>sep 20,2020</span>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                  <article class="mb-5">
-                    <div class="entry-content1-wrapper">
-                      <div class="entry-header">
-                        <h2 class="entry-title"><a href="blog-single-post.html">Most Effective Ways To Overcome Finances Problem</a></h2>
-                        <div class="entry-meta-top"><span class="entry-author"><i class="far fa-user"></i>Amjad Ali</span><span class="entry-meta-date"> <i class="far fa-clock"></i>sep 20,2020</span>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                  <article class="mb-5">
-                    <div class="entry-content1-wrapper">
-                      <div class="entry-header">
-                        <h2 class="entry-title"><a href="blog-single-post.html">5 Benefits Of Startup That May Change Your Perspective</a></h2>
-                        <div class="entry-meta-top"><span class="entry-author"><i class="far fa-user"></i>Amjad Ali</span><span class="entry-meta-date"> <i class="far fa-clock"></i>sep 20,2020</span>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                  <article class="mb-5">
-                    <div class="entry-content1-wrapper">
-                      <div class="entry-header">
-                        <h2 class="entry-title"><a href="blog-single-post.html">The Reason Why Everyone Love Startup Company</a></h2>
-                        <div class="entry-meta-top"><span class="entry-author"><i class="far fa-user"></i>Amjad Ali</span><span class="entry-meta-date"> <i class="far fa-clock"></i>sep 20,2020</span>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                  <article class="mb-5">
-                    <div class="entry-content1-wrapper">
-                      <div class="entry-header">
-                        <h2 class="entry-title"><a href="blog-single-post.html">The Story Of New Startup Has Just Gone Viral</a></h2>
-                        <div class="entry-meta-top"><span class="entry-author"><i class="far fa-user"></i>Amjad Ali</span><span class="entry-meta-date"> <i class="far fa-clock"></i>sep 20,2020</span>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                </div>
-              </aside>
-              <!-- Categories-->
-              <aside class="widget widget_categories">
-                <h5 class="widget-title">Categories</h5>
-                <ul>
-                  <li><a href="blog-right-sidebar.html">Culture</a></li>
-                  <li><a href="blog-right-sidebar.html">Creativity</a></li>
-                  <li><a href="blog-right-sidebar.html">Opinion </a></li>
-                  <li><a href="blog-right-sidebar.html">Weddings</a></li>
-                  <li><a href="blog-right-sidebar.html">Automobiles</a></li>
-                  <li><a href="blog-right-sidebar.html">Living</a>
-                    <ul>
-                      <li><a href="blog-right-sidebar.html">Education</a></li>
-                      <li><a href="blog-right-sidebar.html">Travel</a></li>
-                      <li><a href="blog-right-sidebar.html">Food</a>
-                        <ul>
-                          <li><a href="blog-right-sidebar.html">Traditional</a></li>
-                          <li><a href="blog-right-sidebar.html">Famous </a></li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </li>
-                  <li><a href="blog-right-sidebar.html">Humor</a></li>
-                  <li><a href="blog-right-sidebar.html">Sports</a></li>
-                  <li><a href="blog-right-sidebar.html">Health</a></li>
-                  <li><a href="blog-right-sidebar.html">Photography</a></li>
-                </ul>
-              </aside>
-              <!-- Sidebar End-->
-            </div>
-          </div>
-        </div>
-      </div>
-    </article>
-    <!-- Footer-->
-    <footer class="site-footer">
-      <div class="footer-widgets">
-        <div class="container">
-          <div class="row gx-lg-5">
-            <div class="col-lg-6 pr-lg-10">
-              <div class="footer-widget footer-widget-1">
-                <h2 class="mb-4 text-ebony-clay">Jagga</h2>
-                <p class="text-abbey pr-6">Ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae. Aenean accumsan lectus magna facilisis mauris.</p>
-              </div>
-            </div>
-            <div class="col-lg-6"> 
-              <div class="row gx-lg-5">
-                <div class="col-lg-4">
-                  <div class="footer-widget footer-widget-4">
-                    <ul>
-                      <li><a href="page-contact-us.html">Contact Us</a></li>
-                      <li><a href="page-contact-us.html">hello@Jagga.com</a></li>
-                      <li><a href="page-contact-us.html">+19 235 2518 356</a></li>
-                      <li><a href="page-contact-us.html">Careers</a></li>
-                      <li><a href="page-contact-us.html">Press</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="col-lg-5">
-                  <div class="footer-widget footer-widget-3">
-                    <div class="text-abbey">
-                      <p class="mb-0">Headquarters</p>123 Main Street New York,
-                      <p>NY 20001</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-3">
-                  <div class="footer-widget footer-widget-2">
-                    <ul>
-                      <li><a href="index.html">Home</a></li>
-                      <li><a href="blog.html">Blog</a></li>
-                      <li><a href="page-services.html">Service</a></li>
-                      <li><a href="page-about-us.html">About Us</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom-area">
-        <div class="container">
-          <div class="row gx-5 align-items-center">
-            <div class="col-lg-6 col-md-12">
-              <div class="footer-widget">
-                <p class="m-md-0">© 2020 Energetic Themes</p>
-              </div>
-            </div>
-            <div class="col-lg-6 col-md-12">
-              <div class="footer-widget">
-                <ul class="list-inline m-lg-0 p-lg-0 text-md-right footer-nav">
-                  <li><a href="page-privacy-terms.html">Privacy Policy</a></li>
-                  <li><a href="page-privacy-terms.html">Terms & Conditions</a></li>
-                  <li class="list-inline-item py-lg-2 py-md-4 py-3 pl-lg-5 pl-md-10 pr-2"><a href="#"><i class="fab fa-linkedin-in icon"></i></a></li>
-                  <li class="list-inline-item py-2 pr-2"><a href="#"><i class="fab fa-facebook-square icon"></i></a></li>
-                  <li class="list-inline-item py-2 pr-2"><a href="#"><i class="fab fa-twitter icon"></i></a></li>
-                  <li class="list-inline-item py-2 pr-2"><a href="#"><i class="fab fa-instagram icon"></i></a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-    <!-- End Footer-->
-    <!-- javascript files-->
-    <!-- jquery-->
-    <script src="{{ url_for('static', path='/js/jquery.min.js') }}"></script>
-
-    <!-- lozad js-->
-    <script src="{{ url_for('static', path='/js/lozad.min.js') }}"></script>
-    <!-- Bootstrap js-->
-    <script src="{{ url_for('static', path='/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- Aos js-->
-    <script src="{{ url_for('static', path='/js/aos.js') }}"></script>
-    <!-- Slick flickity js-->
-    <script src="{{ url_for('static', path='/js/flickity.pkgd.min.js') }}"></script>
-    <!-- Magnific popup js-->
-    <script src="{{ url_for('static', path='/js/jquery.magnific-popup.min.js') }}"></script>
-    <!-- Countdown js-->
-    <script src="{{ url_for('static', path='/js/jquery.countdown.js') }}"></script>
-    <!-- CountTo js-->
-    <script src="{{ url_for('static', path='/js/jquery.countTo.js') }}"></script>
-    <!-- Masonry js-->
-    <script src="{{ url_for('static', path='/js/masonry.pkgd.min.js') }}"></script>
-    <!-- Global - Main js-->
-    <script src="{{ url_for('static', path='/js/global.js') }}"></script>
-    <script src="{{ url_for('static', path='/index/session_main.js') }}"></script>
-  </body>
+    <div class="copyright pt-4 text-muted text-center">
+        <p>&copy; 2022 YOUR-DOMAIN | Created by <a
+                href="https://firmbee.com/solutions/free-invoicing-app-billing-software/"
+                title="Firmbee - Free Invoicing App" target="_blank">Firmbee.com</a></p>
+        <!--
+        This template is licenced under Attribution 3.0 (CC BY 3.0 PL),
+        You are free to: Share and Adapt. You must give appropriate credit, you may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+        -->
+    </div>
+</footer>
+<div class="fb2022-copy">Fbee 2022 copyright</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+        crossorigin="anonymous"></script>
+<script src="{{ url_for('static', path='/js/script.js') }}"></script>
+</body>
 </html>

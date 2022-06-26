@@ -1,0 +1,5 @@
+1) Создаем виртуальную среду python3 -m venv venv и активируем ее 
+2) Из папки с requirements.txt устанавливаем зависимости pip install -r requirements.txt
+3) Переходим в папку game_blog cd ./game_blog/
+4) Выполняем миграции вводим в терминале alembic upgrade head (необязательно)
+5) Запускаем скрипт run.py (python run.py)
