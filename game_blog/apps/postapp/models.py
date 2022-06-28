@@ -1,6 +1,7 @@
 from uuid import uuid4
 
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Text
+
 from sqlalchemy.orm import relationship
 import datetime
 
@@ -13,6 +14,7 @@ class Post(Base):
     created_date = Column(DateTime, default=datetime.datetime.utcnow)
     is_active = Column(Boolean, default=True)
     title = Column(String)
-    content = Column(String)
+    image = Column(String)
+    content = Column(Text)
     owner_uid = Column(UUIDType, ForeignKey("user.uid"))
     owner = relationship("User", back_populates="post")

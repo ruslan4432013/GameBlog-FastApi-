@@ -5,21 +5,20 @@ from sqlalchemy.orm import Session
 
 from apps.authapp.routers import user_router
 from apps.authapp.utils import get_current_user
+from apps.postapp.routers import post_route
 from core.config import TemplateResponse
+from core.decorators import login_required
+from core.requests_framework import setup_user_dict
 from db.session import get_db
 
 api_router = APIRouter()
 api_router.include_router(user_router)
+api_router.include_router(post_route)
 
 
 @api_router.get("/", response_class=HTMLResponse)
 @api_router.post("/", response_class=HTMLResponse)
 async def root(request: Request, db: Session = Depends(get_db)):
-    token = request.cookies.get('token')
-    response_dict = {'request': request}
-
-    if token:
-        user = await get_current_user(db, token)
-        response_dict['user'] = user
-
-    return TemplateResponse('index.html', response_dict)
+    request.name = 'home'
+    response_dict = await setup_user_dict(request, db)
+    return TemplateResponse('index.jinja2', response_dict)

@@ -1,4 +1,6 @@
 import os
+from pathlib import Path
+
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseSettings
 
@@ -9,6 +11,8 @@ if not SECRET_KEY:
 
 SQLALCHEMY_DATABASE_URL = 'sqlite:///../site.db'
 
+ROOT_URL = Path(__file__).resolve().parent.parent
+MEDIA_URL = os.path.join(ROOT_URL, 'media')
 templates = Jinja2Templates(directory="templates")
 
 TemplateResponse = templates.TemplateResponse

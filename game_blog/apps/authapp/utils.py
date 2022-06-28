@@ -78,14 +78,4 @@ async def create_user(user: UserCreate, db: Session):
 
 async def get_current_user(db: Session, token: str):
     user = await get_user_by_token(token, db)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid authentication credentials",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    if not user.is_active:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Inactive user"
-        )
     return user

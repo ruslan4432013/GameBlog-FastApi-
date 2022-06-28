@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Firmbee.com - Free Project Management Platform for remote teams">
-    <title>Register</title>
+    <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,12 +27,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto">
-                    <a class="nav-link" href="/">home</a>
-                    <a class="nav-link" href="about.html">about</a>
-                    <a class="nav-link" href="contact.html">contact</a>
-                    <a class="nav-link" href="blog.html">Blog</a>
-                    <a class="nav-link" href="/login/">Login</a>
-                    <a class="nav-link active" href="/register/">Register</a>
+                    {% include 'includes/navbar.jinja2' %}
                 </div>
             </div>
         </div>
@@ -43,19 +38,14 @@
         <div class="row mainmargin">
             <div class="col-md-8">
                 <div class="contact-page">
-                    <h2 class="underscore mb-5">Join us!</h2>
+                    <h2 class="underscore mb-5">Login</h2>
                     <div class="line"></div>
                     <div class="line"></div>
-                    <form id="registerForm" method="post">
-                        <!-- Name input -->
-                        <div class="mb-3">
-                            <input class="form-control" name="username"  id="name" type="text" placeholder="Name *"
-                                   data-sb-validations="required"/>
-                            <div class="invalid-feedback" data-sb-feedback="name:required">Name is required.</div>
-                        </div>
+                    <form id="loginForm" method="post">
                         <!-- Email address input -->
                         <div class="mb-3">
-                            <input class="form-control" id="emailAddress" name="email" type="email" placeholder="Email Address *"
+                            <input class="form-control" id="emailAddress" name="email" type="email"
+                                   placeholder="Email Address *"
                                    data-sb-validations="required, email"/>
                             <div class="invalid-feedback" data-sb-feedback="emailAddress:required">Email Address is
                                 required.
@@ -65,9 +55,11 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <input class="form-control" id="password" name="password" type="password" placeholder="Password *"
+                            <input class="form-control" id="password" name="password" type="password"
+                                   placeholder="Password *"
                                    data-sb-validations="required"/>
-                            <div class="invalid-feedback" data-sb-feedback="password:required">Password is required.</div>
+                            <div class="invalid-feedback" data-sb-feedback="password:required">Password is required.
+                            </div>
                         </div>
                         <!-- Form submissions success message -->
                         <div class="d-none" id="submitSuccessMessage">
@@ -79,7 +71,7 @@
                         </div>
                         <!-- Form submit button -->
                         <div class="d-grid">
-                            <button class="main-button mt-0" id="submitButton" type="submit">Register
+                            <button class="main-button mt-0" id="submitButton" type="submit">Login
                             </button>
                         </div>
                     </form>

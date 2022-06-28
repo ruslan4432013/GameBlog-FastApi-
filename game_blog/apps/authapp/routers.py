@@ -18,8 +18,9 @@ user_router = APIRouter()
 @user_router.post('/register/')
 @user_router.get('/register/')
 async def register(request: Request, db: Session = Depends(get_db)):
+    request.name = 'register'
     if request.method == 'GET':
-        return TemplateResponse("auth/register.html", {"request": request})
+        return TemplateResponse("auth/register.jinja2", {"request": request})
     else:
         form = await request.form()
         form_register_data = {
@@ -30,25 +31,26 @@ async def register(request: Request, db: Session = Depends(get_db)):
         user = UserCreate(**form_register_data)
         db_user = await get_user_by_email(email=user.email, db=db)
         if db_user:
-            return TemplateResponse("auth/register.html", {"request": request,
+            return TemplateResponse("auth/register.jinja2", {"request": request,
                                                            "error": 'User with this email has already'})
         else:
             new_user = await create_user(user, db)
-            return TemplateResponse("auth/login.html", {"request": request})
+            return TemplateResponse("auth/login.jinja2", {"request": request})
 
 
 @user_router.post('/login/')
 @user_router.get('/login/')
 async def login_page(request: Request, db: Session = Depends(get_db)):
+    request.name = 'login'
     if request.method == "GET":
-        return TemplateResponse('auth/login.html', {'request': request})
+        return TemplateResponse('auth/login.jinja2', {'request': request})
 
     form = await request.form()
 
     user = await get_user_by_email(form.get('email'), db)
 
     if not user or not validate_password(password=form.get('password'), hashed_password=user.hashed_password):
-        return TemplateResponse('auth/login.html', {'request': request, 'error': 'Incorrect email or password'})
+        return TemplateResponse('auth/login.jinja2', {'request': request, 'error': 'Incorrect email or password'})
 
     response = responses.RedirectResponse('/?msg=Successfully-Logged')
 
