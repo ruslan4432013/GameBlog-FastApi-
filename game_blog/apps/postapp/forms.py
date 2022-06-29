@@ -30,7 +30,7 @@ class PostForm:
         return False
 
     async def load_photo_from_form(self):
-
+        await self.load_data()
         image: UploadFile = self.image
         content = await image.read()
 
