@@ -1,11 +1,12 @@
 import os
 
 from fastapi import APIRouter, Depends, UploadFile
+from sqlalchemy.exc import StatementError
 from sqlalchemy.orm import Session
 from fastapi.requests import Request
-
+from fastapi.responses import RedirectResponse
 from apps.postapp import Post
-from apps.postapp.forms import AddPostForm
+from apps.postapp.forms import AddPostForm, UpdatePostForm
 from core.config import TemplateResponse, MEDIA_URL
 from core.decorators import login_required
 from core.requests_framework import setup_user_dict
@@ -39,6 +40,64 @@ async def create_post(request: Request, db: Session = Depends(get_db)):
         if is_created:
             response_dict.update({'success': True})
         else:
+            form.errors = [form.errors[0]]
             response_dict.update(form.__dict__)
 
     return TemplateResponse('blog/create_post.jinja2', response_dict)
+
+
+@post_route.get('/single/{uuid}')
+async def show_post(uuid: str, request: Request, db: Session = Depends(get_db)):
+    response_dict = await setup_user_dict(request, db)
+    try:
+        post = db.query(Post).filter(Post.uid == uuid).first()
+    except StatementError:
+        post = None
+
+    response_dict['post'] = post
+
+    return TemplateResponse('blog/single-post.jinja2', response_dict)
+
+
+@post_route.get('/edit/{uuid}')
+@post_route.post('/edit/{uuid}')
+@login_required
+async def edit_post(uuid: str, request: Request, db: Session = Depends(get_db)):
+    response_dict = await setup_user_dict(request, db)
+    try:
+        post = db.query(Post).filter(Post.uid == uuid).first()
+    except StatementError:
+        return RedirectResponse(request.headers.get('referer'))
+
+    response_dict['post'] = post
+
+    if request.method == "POST":
+        form = UpdatePostForm(request, response_dict)
+        was_updated = await form.update_post(db, post)
+        print(was_updated)
+        if was_updated:
+            response_dict.update({'success': True})
+        else:
+            form.errors = [form.errors[0]]
+            response_dict.update(form.__dict__)
+
+    return TemplateResponse('blog/edit-post.jinja2', response_dict)
+
+
+@post_route.get('/remove/{uuid}')
+@login_required
+async def remove_post(uuid: str, request: Request, db: Session = Depends(get_db)):
+    response_dict = await setup_user_dict(request, db)
+    try:
+        post = db.query(Post).filter(Post.uid == uuid).first()
+    except StatementError:
+        post = None
+
+    user = response_dict.get('user')
+
+    if user == post.owner:
+        db.delete(post)
+        db.commit()
+        return RedirectResponse('/blog/')
+
+    return RedirectResponse(request.headers.get('referer'))

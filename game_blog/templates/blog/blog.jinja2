@@ -51,8 +51,8 @@
                                             class="far fa-calendar"></i> 30 07 2021</span><span><i
                                             class="far fa-comment-alt"></i> 0 comments</span>
                                     </div>
-                                    <p>{{ post.content }}</p>
-                                    <a href="./single-post.html" class="main-button">Read More</a>
+                                    <p>{{ post.content|truncate(20, True) }}</p>
+                                    <a href="/blog/single/{{ post.uid }}" class="main-button">Read More</a>
                                 </div>
                             </div>
                         {% endfor %}
