@@ -32,19 +32,27 @@ async def register(request: Request, db: Session = Depends(get_db)):
         db_user = await get_user_by_email(email=user.email, db=db)
         if db_user:
             return TemplateResponse("auth/register.jinja2", {"request": request,
-                                                           "error": 'User with this email has already'})
+                                                             "error": 'User with this email has already'})
         else:
             new_user = await create_user(user, db)
-            return TemplateResponse("auth/login.jinja2", {"request": request})
+            response = responses.RedirectResponse('/login/')
+            response.set_cookie('logged', 'true')
+            return response
 
 
 @user_router.post('/login/')
 @user_router.get('/login/')
 async def login_page(request: Request, db: Session = Depends(get_db)):
     request.name = 'login'
-    if request.method == "GET":
-        return TemplateResponse('auth/login.jinja2', {'request': request})
+    is_logged = request.cookies.get('logged')
 
+    if request.method == "POST" and is_logged:
+        response = TemplateResponse('auth/login.jinja2', {'request': request}, headers=None)
+        response.delete_cookie('logged')
+        return response
+
+    if request.method == 'GET':
+        return TemplateResponse('auth/login.jinja2', {'request': request})
     form = await request.form()
 
     user = await get_user_by_email(form.get('email'), db)
