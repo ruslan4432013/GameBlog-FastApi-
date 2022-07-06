@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel, EmailStr, UUID4, Field, validator
 from datetime import datetime
@@ -35,3 +35,7 @@ class TokenBase(BaseModel):
 class User(UserBase):
     """ Формирует тело ответа с деталями пользователя и токеном """
     token: TokenBase = {}
+
+
+class EmailSchema(BaseModel):
+    email: List[EmailStr]

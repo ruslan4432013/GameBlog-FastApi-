@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from fastapi.requests import Request
 from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
+from fastapi.responses import JSONResponse
 
 from apps.authapp.routers import user_router
 from apps.authapp.utils import get_current_user
@@ -20,5 +21,6 @@ api_router.include_router(post_route)
 @api_router.post("/", response_class=HTMLResponse)
 async def root(request: Request, db: Session = Depends(get_db)):
     request.name = 'home'
+
     response_dict = await setup_user_dict(request, db)
     return TemplateResponse('index.jinja2', response_dict)

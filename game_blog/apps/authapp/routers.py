@@ -1,16 +1,16 @@
 from fastapi import APIRouter
 from fastapi.requests import Request
 from fastapi import Depends
-
 from sqlalchemy.orm import Session
+
 
 from apps.authapp.schemas import UserCreate
 from core.config import TemplateResponse
 from db.session import get_db
 from fastapi import responses
-from .models import Token
+from .models import Token, User
 
-from .utils import get_user_by_email, create_user, validate_password, create_user_token
+from .utils import get_user_by_email, create_user, validate_password, create_user_token, send_message, do_hash_password
 
 user_router = APIRouter()
 
@@ -76,3 +76,54 @@ async def logout(request: Request, db: Session = Depends(get_db)):
     response = responses.RedirectResponse('/')
     response.delete_cookie('token')
     return response
+
+
+@user_router.get('/reset_password/')
+@user_router.post('/reset_password/')
+async def reset_password(request: Request, db: Session = Depends(get_db)):
+    context = {'request': request}
+
+    if request.method == 'POST':
+        form = await request.form()
+        email = form.get('email')
+        user: User = await get_user_by_email(email, db)
+        if not user:
+            context['error'] = f'user with email: {email} not register'
+        else:
+            token = user.get_reset_token()
+            print(token)
+
+            await send_message(request.url_for('change_password', token=token), user)
+
+            context['success'] = f'SUCCESS!!! Instruction for reset password was sending on your email'
+
+    return TemplateResponse('auth/reset_password.jinja2', context)
+
+
+@user_router.get('/change_password/{token}')
+@user_router.post('/change_password/{token}')
+async def change_password(token: str, request: Request, db: Session = Depends(get_db)):
+    context = {'request': request}
+    token = token.encode('utf-8')
+
+    payload = User.get_payload_from_reset_token(token)
+    if request.method == 'POST' and payload:
+
+        form = await request.form()
+
+        password = form.get('password')
+        confirm_password = form.get('confirm_password')
+
+        if password and password != confirm_password:
+            context['error'] = 'Пароли не совпадают или вы ничего не ввели'
+
+        else:
+            user = db.query(User).filter(User.uid == payload['user_uid']).first()
+            if not user:
+                context['error'] = 'Возникла неизвестная ошибка'
+            else:
+                user.hashed_password = await do_hash_password(password)
+                db.commit()
+                context['success'] = 'Пароль успешно изменен, можете попробовать по нему зайти'
+
+    return TemplateResponse('auth/change_password.jinja2', context)

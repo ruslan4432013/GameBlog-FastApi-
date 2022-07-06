@@ -3,6 +3,7 @@ import random
 import string
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
+from fastapi_mail import MessageSchema, FastMail
 from sqlalchemy.orm import Session
 from sqlalchemy import and_
 from datetime import datetime, timedelta
@@ -10,6 +11,7 @@ from apps.authapp import User
 from apps.authapp.models import Token
 
 from apps.authapp.schemas import UserCreate
+from core.config import mail_conf
 
 
 def get_random_string(length=12):
@@ -57,14 +59,18 @@ async def create_user_token(user_uid: str, db: Session):
     return token
 
 
+async def do_hash_password(password):
+    salt = get_random_string()
+    hashed_password = hash_password(password, salt)
+    return f"{salt}${hashed_password}"
+
 async def create_user(user: UserCreate, db: Session):
     """ Создает нового пользователя в БД """
-    salt = get_random_string()
-    hashed_password = hash_password(user.password, salt)
+    hashed_password = await do_hash_password(user.password)
     user_db = User(
         username=user.username,
         email=user.email,
-        hashed_password=f"{salt}${hashed_password}",
+        hashed_password=hashed_password,
         is_active=True
     )
     db.add(user_db)
@@ -79,3 +85,17 @@ async def create_user(user: UserCreate, db: Session):
 async def get_current_user(db: Session, token: str):
     user = await get_user_by_token(token, db)
     return user
+
+
+async def send_message(url, user: User):
+    html = f"""
+    For reset password use this url: '{url}'
+    """
+    message = MessageSchema(
+        subject="Fastapi-Mail module",
+        recipients=[user.email],  # List of recipients, as many as you can pass
+        body=html,
+        subtype="html")
+
+    fm = FastMail(mail_conf)
+    await fm.send_message(message)

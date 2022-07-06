@@ -1,5 +1,6 @@
 from functools import wraps
 
+from fastapi import HTTPException
 from fastapi.responses import RedirectResponse
 from fastapi.requests import Request
 from sqlalchemy.orm import Session
@@ -15,7 +16,7 @@ def login_required(func):
         db: Session = kwargs.get('db')
 
         if request is None or token is None or not await get_user_by_token(token, db):
-            return RedirectResponse('/login')
+            raise HTTPException(status_code=403, detail="Access denied")
 
         return await func(*args, **kwargs)
 

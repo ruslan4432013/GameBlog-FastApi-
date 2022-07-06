@@ -6,6 +6,7 @@
         <entryData>
           <resourceRoots>
             <path value="file://$PROJECT_DIR$/game_blog" />
+            <path value="file://$PROJECT_DIR$/game_blog/static" />
           </resourceRoots>
         </entryData>
       </entry>

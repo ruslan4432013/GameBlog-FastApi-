@@ -5,7 +5,8 @@ from fastapi.requests import Request
 from sqlalchemy.orm import Session
 
 from apps.postapp import Post
-from core.config import MEDIA_URL, IMG_EXTENSION_LIST
+from core.config import MEDIA_URL
+from core.img_extension import IMG_EXTENSION_LIST
 
 
 class PostForm:

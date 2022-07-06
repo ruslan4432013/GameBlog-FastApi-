@@ -16,6 +16,9 @@ python-multipart = "*"
 passlib = "*"
 pydantic = {extras = ["email"], version = "*"}
 fastapi-utils = "*"
+fastapi-mail = "*"
+itsdangerous = "*"
+authlib = "*"
 
 [dev-packages]
 
