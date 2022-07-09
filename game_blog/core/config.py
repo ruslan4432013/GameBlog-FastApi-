@@ -19,7 +19,7 @@ TemplateResponse = templates.TemplateResponse
 
 mail_conf = ConnectionConfig(
     MAIL_USERNAME="NinjaEasyCool",
-    MAIL_PASSWORD="kozexssecfclbqli",
+    MAIL_PASSWORD="amlqwmkvkekwltdg",
     MAIL_FROM="NinjaEasyCool@yandex.ru",
     MAIL_PORT=465,
     MAIL_SERVER="smtp.yandex.ru",
