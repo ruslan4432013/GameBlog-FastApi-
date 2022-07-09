@@ -1,0 +1,23 @@
+version: '3.1'
+
+services:
+  server:
+    image: 'python:3.10-alpine'
+    working_dir: "/var/www/"
+    command: sh -c "
+      pip install pipenv &&
+      pipenv install --system --deploy --ignore-pipfile &&
+      cd ./game_blog &&
+      uvicorn run:app --host 0.0.0.0 --port 8000
+      "
+    volumes:
+      - "../:/var/www"
+
+  nginx:
+    image: nginx:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - "../:/var/www"
+      - "./nginx.conf:/etc/nginx/nginx.conf"
