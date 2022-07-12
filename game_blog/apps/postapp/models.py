@@ -18,3 +18,11 @@ class Post(Base):
     content = Column(Text)
     owner_uid = Column(UUIDType, ForeignKey("user.uid"))
     owner = relationship("User", back_populates="post")
+
+
+class Comments(Base):
+    uid = Column(UUIDType, default=uuid4, primary_key=True)
+    created_date = Column(DateTime, default=datetime.datetime.utcnow)
+    content = Column(Text)
+    post_uid = Column(UUIDType, ForeignKey('post.uid'))
+    owner_uid = Column(UUIDType, ForeignKey("user.uid"))
